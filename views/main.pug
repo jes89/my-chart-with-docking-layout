@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title #{title}
+  body
+  link(rel="stylesheet" href="/css/main.css")
+script(src="/js/extendProtoType/functionProtoExtend.js")
+script(src="/js/common/common.js")
+script(src="/js/headerMenu.js")
+script(src="/js/workingHistory.js")
+script.
+    
+    var headerMenu = new UserHeaderMenu();
+    var workingHistory = new UserWorkingHistory();
+    var ws = new WebSocket("ws://localhost:1337/");
+    var userNm = "test";
+    
+    headerMenu.init(userNm);
+    
+    ws.onopen = function(event) {
+    	ws.send("open connection");
+    }
+    
+    ws.onmessage = function(event) {
+    	console.log("Server message: ", event.data);
+    }
+    
+    ws.onerror = function(event) {
+    	console.log("Server error message: ", event.data);
+    }
+    
+    
