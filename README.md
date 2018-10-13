@@ -97,6 +97,7 @@ var singleObj = {
 
 식의 제이슨형식의 싱글객체를 만들지만 모두 퍼블릭 속성을 가지게되는 단점이 있어
 
+
 var singleObj = (function() {
   	var instance;
 	  var gObj = {};
