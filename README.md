@@ -135,3 +135,42 @@ MVC를 선택한 이유는 자바 개발자로 있다보니
 - 메멘토 : 사용자가 선택한 히스토리의 지점으로 언제든기 복귀가 가능해야하기때문에 메멘토 패턴이 필요합니다.
 
 
+해당 프로젝트는 크롬에 최적화 될 예정이며
+
+클로저는 메모리 이슈의 원인이 될뿐 아니라
+
+	var arr = [0,1,2,3,4,5];
+	
+	for(var ix = 0, ixLen = arr.length; ix < ixLen; ix++){
+		
+	}
+	arr.length = null;
+	arr = null;
+	
+이런 식의 arr.length 부터 null을 처리해주지 않으면 메모리에 남게되는 이슈가 있으며
+
+return 문에서 사용될 변수는
+
+	try{
+		return something;
+	} finally{
+		something.a = null;
+		something.b = null;
+		something = null
+	}
+
+이런 형식의 메모리 관리가 필요하기때문에 
+
+유지보수에 손이 많이가기때문에 클로저 대신
+
+되도록이면 Object.defineProperty를 통해 프로퍼티의 접근제어를 할 예정입니다.
+
+
+	
+	
+	
+	
+	
+
+
+
