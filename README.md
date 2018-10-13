@@ -100,7 +100,7 @@ var singleObj = {
 
 var singleObj = (function() {
   	var instance;
-	  var gObj = {};
+	var gObj = {};
    
    function initiate() {
       return {
