@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const route = require('./route');
 const wsServer = require('./utils/webSocketUtil');
 const app = express();

@@ -29,7 +29,6 @@ const tbWorkingHistory = sequelize.define("tbWorkingHistory", {
 	});
 
 sequelize.sync({  	alter: true, 
-					preserveColumnsOnSync: true  
-				});
+					preserveColumnsOnSync: true  });
 
 module.exports = tbWorkingHistory
