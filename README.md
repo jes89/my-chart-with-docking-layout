@@ -91,7 +91,7 @@ MVC를 선택한 이유는 자바 개발자로 있다보니
 			      this.userName = param.userName;
 	        this.position = param.position;
 	    }
-	}
+	  }
 
 식의 제이슨형식의 싱글객체를 만들지만 모두 퍼블릭 속성을 가지게되는 단점이 있어
 
@@ -188,7 +188,7 @@ catch문 없는 try-finally문을 써야하는 이상한 상황이 생기기때�
 
 <strong>IE, 파이어폭스, 사파리 등은  http 요청이 동시에 17개<strong>까지 열리지만
 
-<strong>크롬은 10개까지가 한계 </strong> 인 점을 고려해 
+<strong>크롬은 10개까지가 한계<strong>인 점을 고려해 
 
 파일 용량및 순서를 고려해 http 요청을 최적화 할 예정
 	
