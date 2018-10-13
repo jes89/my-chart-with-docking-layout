@@ -84,16 +84,16 @@ MVC를 선택한 이유는 자바 개발자로 있다보니
 
 한가지는  
 var singleObj = {
-    
-    this.init = function(param){
-		      this.ininProperties(param);
-    }
+	    
+	    this.init = function(param){
+			      this.ininProperties(param);
+	    }
 
-    this.ininProperties = function(param){
-		      this.userName = param.userName;
-        this.position = param.position;
-    }
-}
+	    this.ininProperties = function(param){
+			      this.userName = param.userName;
+	        this.position = param.position;
+	    }
+	}
 
 식의 제이슨형식의 싱글객체를 만들지만 모두 퍼블릭 속성을 가지게되는 단점이 있어
 
