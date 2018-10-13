@@ -1,16 +1,5 @@
 
 
-# myFirstNode
-
-## Usage
-
-## Developing
-
-### Tools
-
-# myFirstNode
-
-
 # 프로젝트의 개발 목적
 
 기본적으로 제가 첫 회사 입사하고 
