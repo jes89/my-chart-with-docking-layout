@@ -61,11 +61,17 @@ DB의 상태를 모니터링해주는 페이지였으나
 - mySQl : 8.0.12
 
 노드 사용 모듈
+
 express: 4.16.4
+
 mysql2 : 1.6.1
+
 properties-reader : 0.0.16
+
 pug : 2.0.3
+
 sequelize : 4.39.0
+
 websocket : 1.0.28
 
 
