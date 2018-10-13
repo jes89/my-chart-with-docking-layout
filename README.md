@@ -99,26 +99,25 @@ var singleObj = {
 
 
 var singleObj = (function() {
-  	var instance;
-	var gObj = {};
-   
-   function initiate() {
-      return {
+      var instance;
+      var gObj = {};
+      
+      function initiate() {
+         return {
                foo : function() {
                     //TODO
                }
-            };
-  }
-  
-  return {
-    getInstance: function() {
-      if (!instance) {
-        instance = initiate();
+         }
       }
-      return instance;
-    }
-  }
-})();
+      return {
+               getInstance: function() {
+                   if (!instance) {
+                        instance = initiate();
+                   }
+                   return instance;
+              }
+       }
+     })();
 
 아래처럼 사용할 예정입니다.
 
