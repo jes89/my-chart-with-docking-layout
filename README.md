@@ -101,15 +101,16 @@ MVC를 선택한 이유는 자바 개발자로 있다보니
          var instance;
          var gObj = {};
       
-      function initiate() {
-	 return {
-	       foo : function() {
-		    //TODO
-	       }
-	 }
-      }
-      return {
-               getInstance: function() {
+	function initiate() {
+		return {
+	       		foo : function() {
+		    	//TODO
+	       		}
+	 	}
+      	}
+	
+      	return {
+              getInstance: function() {
                    if (!instance) {
                         instance = initiate();
                    }
