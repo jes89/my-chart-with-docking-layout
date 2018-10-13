@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const express = require("express");
 const path = require("path");
-var PropertiesReader = require('properties-reader');
-var properties = PropertiesReader(path.join(__dirname, "..", "properties", "mysql.properties"));
+const PropertiesReader = require('properties-reader');
+const properties = PropertiesReader(path.join(__dirname, "..", "properties", "mysql.properties"));
 
 const sequelize = new Sequelize(
 		properties.get("db")				, 
