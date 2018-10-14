@@ -2,15 +2,17 @@
 (function(){
 	var UserHeaderMenu = function() {
 		
-		var rootContainer = comm.getElById("rootContainer");
+		
 		
 		this.init = function(settingInfo) {
 			initLayout(settingInfo);
 		}
 		
 		var initLayout = function(settingInfo){
+			
 			var headerContainer = document.createElement("div");
-
+			var rootContainer = comm.getElById("rootContainer");
+			
 			headerContainer.className = "header";
 
 			rootContainer.appendChild(headerContainer);
