@@ -16,7 +16,17 @@ html
   #rootContainer
   
 
-script.
+  script.
+    document.addEventListener("DOMContentLoaded", function(){
+      
+      var contentsContainer = new ContentsContainer();
+      var subContainerSize = 3;
+      
+      contentsContainer.init(subContainerSize);
+      
+    });
+    
+
     
     
     

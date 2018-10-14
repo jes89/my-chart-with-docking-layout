@@ -42,7 +42,11 @@ body {
     border: solid 1px #232323;
 }
 
-.contents_container {
+.contents_root_container {
 	height: calc(100% - 52px);
 	
+}
+
+.contents_sub_container{
+    border: solid 1px gray
 }
