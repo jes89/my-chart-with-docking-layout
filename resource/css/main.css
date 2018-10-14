@@ -1,6 +1,4 @@
 @charset "UTF-8";
-
-
 html,body {
 	height: 100%;
 }
@@ -40,6 +38,34 @@ body {
     height: calc(100% - 54px);
     background-color: #353535;
     border: solid 1px #232323;
+   	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+i {
+    border: solid #cacaca;
+    border-width: 0 8px 8px 0;
+    display: inline-block;
+    padding: 10px;
+}
+
+.right_menu_arrow {
+    position: absolute;
+	left: -25px;
+	top: 50%;
+}
+.right_menu_arrow i {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.right_menu_arrow .active {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+   	transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 
 .contents_root_container {
