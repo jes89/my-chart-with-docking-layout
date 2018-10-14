@@ -3,31 +3,21 @@ html
   head
     meta(charset="utf-8")
     title #{title}
+    link(rel="stylesheet" href="/css/reset.css")
+    link(rel="stylesheet" href="/css/main.css")
+    script(defer , src="/js/extendProtoType/functionProtoExtend.js")
+    script(defer , src="/js/utils/common.js")
+    script(defer , src="/js/workingHistory.js")
+    script(defer , src="/js/layout/headerMenu.js")
+    script(defer , src="/js/layout/rightSideMenu.js")
   body
-  link(rel="stylesheet" href="/css/main.css")
-script(src="/js/extendProtoType/functionProtoExtend.js")
-script(src="/js/common/common.js")
-script(src="/js/headerMenu.js")
-script(src="/js/workingHistory.js")
+  
+  #rootContainer
+  
+
 script.
     
-    var headerMenu = new UserHeaderMenu();
-    var workingHistory = new UserWorkingHistory();
-    var ws = new WebSocket("ws://localhost:1337/");
-    var userNm = "test";
     
-    headerMenu.init(userNm);
     
-    ws.onopen = function(event) {
-    	ws.send("open connection");
-    }
-    
-    ws.onmessage = function(event) {
-    	console.log("Server message: ", event.data);
-    }
-    
-    ws.onerror = function(event) {
-    	console.log("Server error message: ", event.data);
-    }
     
     

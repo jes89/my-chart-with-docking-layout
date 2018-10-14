@@ -2,7 +2,8 @@ var singleObj = (function() {
 	var instance;
 	
 	var gObj = {
-			headEl : document.getElementsByTagName("head")[0]
+			headEl : document.getElementsByTagName("head")[0],
+			cacheElementsMemory : {rootContainer : document.getElementById("rootContainer")} 
 	}
 	
 	function initiate() {
@@ -31,6 +32,18 @@ var singleObj = (function() {
 				return year + "-" + month + "-" + date + " " + hour + ":" + minute
 						+ ":" + second + " " + milliSecond;
 			}, 
+			getElById : function(id){
+				
+				var selectedEl = gObj.cacheElementsMemory[id];
+				
+				if(selectedEl == null){
+					selectedEl = document.getElementById(id);
+					gObj.cacheElementsMemory[id] = selectedEl;
+				}
+		
+				return selectedEl;
+				
+			},
 			errorLog : function(msg) {
 				var fullDate = getNowDate();
 

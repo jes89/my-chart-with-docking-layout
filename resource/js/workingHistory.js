@@ -1,24 +1,27 @@
-var UserWorkingHistory = function() {
+(function() {
+
+	var UserWorkingHistory = function() {
 
 		var owner = {};
-		
-		if(UserWorkingHistory.hasNotPrototype(UserWorkingHistory,"init")){
-			
+
+		if (UserWorkingHistory.hasNotPrototype(UserWorkingHistory, "init")) {
+
 			UserWorkingHistory.prototype.init = function(userNm, history) {
-				
+
 				initProperties(userNm, history);
-				
+
 			}
-			
+
 		}
-		
-		if(UserWorkingHistory.hasNotPrototype(UserWorkingHistory,"getHistory")){
-			
+
+		if (UserWorkingHistory
+				.hasNotPrototype(UserWorkingHistory, "getHistory")) {
+
 			UserWorkingHistory.prototype.getHistory = function() {
-				
+
 				return owner.history;
 			}
-			
+
 		}
 
 		var addHistory = function(eventNm) {
@@ -33,7 +36,7 @@ var UserWorkingHistory = function() {
 			owner.history[fullDate] = eventNm;
 
 		}
-		
+
 		var removeHistory = function(eventNm) {
 
 			if (owner == null || owner.history == null) {
@@ -58,5 +61,11 @@ var UserWorkingHistory = function() {
 			}
 
 		}
-		
+
 	}
+	
+	var workingHistory = new UserWorkingHistory();
+	
+	
+	
+})();
