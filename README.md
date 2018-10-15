@@ -174,6 +174,35 @@ Component는 DockingLayout의 innerClass이며
 
 필요에따라 Component.parent에 있는 영역에서 CRUD가 진행된다.
 
+	var DockingLayout = (function (){
+	
+		var DockingLayout = function (){}
+		var chartEventFactory = {};
+		var layoutComponents = {};
+		
+		chartEventFactory.createChart = function(){//TODO}
+		chartEventFactory.deleteChart = function(){//TODO}
+		chartEventFactory.moveChart = function(){//TODO}
+		
+		var Components = (function(){
+		
+			var Components = function(partent,chartType){
+				this.partent = partent;
+				this.chartType = chartType;
+			}
+			
+			Components.prototype.createComponent = function(){//TODO}
+			Components.prototype.deleteComponent = function(){//TODO}
+			Components.prototype.moveComponent = function(){//TODO}
+
+			return Components;
+
+		})();
+
+		return DockingLayout;
+
+	})();
+
 	
 # 부가설명 
 <strong>해당 프로젝트는 크롬에 최적화 </strong>되었으며
