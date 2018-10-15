@@ -165,3 +165,9 @@ i {
 .contents_sub_container{
     border: solid 1px gray
 }
+
+.contents_root_container .contents_sub_container .layout_container {
+	height: 100%;
+	display: inline-block;
+	background-color : #191919;
+}

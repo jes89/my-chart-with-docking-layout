@@ -32,7 +32,7 @@ var ContentsContainer = (function() {
 	
 	var initSubContainer = function(contentsWrapper, subContainerSize){
 		
-		var border = 1 * 2;
+		var border =  2;
 		var wrapperhHeight = contentsWrapper.offsetHeight;
 		var eachHeight = (wrapperhHeight / subContainerSize) - border;
 		var tempEl = null;
@@ -40,6 +40,8 @@ var ContentsContainer = (function() {
 		for(var ix = 0; ix < subContainerSize; ix ++){
 			
 			tempEl = document.createElement("div");
+			
+			tempEl.setAttribute("data-index", ix);
 			
 			tempEl.className = "contents_sub_container";
 			
@@ -50,7 +52,6 @@ var ContentsContainer = (function() {
 			addDragDropEvt(tempEl);
 		}
 	}
-	
 	
 	var addDragDropEvt = function(contentsWrapper){
 		contentsWrapper.addEventListener("dragover", function(){event.preventDefault();});
