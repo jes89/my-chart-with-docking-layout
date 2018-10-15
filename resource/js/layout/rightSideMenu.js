@@ -20,7 +20,7 @@
 			var syncOption = document.createElement("li");
 			var removeOption = document.createElement("li");
 			var restoreOption = document.createElement("li");
-				
+			
 			arrowWrapper.className = "right_menu_arrow";
 			rightSideMenuContainer.className = "right_menu";
 			tableContainer.className = "right_menu_table";
