@@ -145,13 +145,8 @@ MVC의 좋은 구조와 유지보수 유용함을 항상 느끼고 있기때문�
 
 DockingLayout.js을 상속 받고
 	
-	if(typeof(DockingLayout) !== "function"){
-		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
-		return;
-	}
 	
-	comm.extendClass( DockingLayout, ContentsContainer );
-	
+	//common.js
 	extendClass : function( superClass, childClass ){
 				
 		var protoTypeArr = Object.keys(superClass.prototype);
@@ -163,27 +158,40 @@ DockingLayout.js을 상속 받고
 		}
 
 	}
+	
+	//ContentsContainer.js
+	if(typeof(DockingLayout) !== "function"){
+		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
+		return;
+	}
+	
+	comm.extendClass( DockingLayout, ContentsContainer );
+	
+	
 
+프로퍼티 탐색에서 for in문 대신 Object.keys를 사용한 이유는
 
-DockingLayout.js는 
+for in문은 Object.keys보다 최소 몇백배에서 최대 몇천배까지의 탐색시간이 소요되기때문입니다.
 
-chartEventFactory 객체와 layoutComponents 객체를 포함하는데
+DockingLayout.js는 chartEventFactory 객체와 layoutComponents 객체를 포함하는데
 
 chartEventFactory는 chart의 CRUD의 이벤트를 가지고 있으며
 
-각각 이벤트는 layoutComponents에서 이벤 이벤트에대한 Component를 가져와 
+각각 이벤트는 layoutComponents에서 이벤 이벤트에대한 Component를 가져와서 
 
-Component 객체의 CRUD를 수행한다.
+Component 객체의 CRUD를 수행합니다.
 
 Component는 DockingLayout의 innerClass이며 
 
-필요에따라 Component.parent에 있는 영역에서 CRUD가 진행된다.
+필요에따라 Component.parent에 있는 영역에서 CRUD가 진행됩니다.
 
 	var DockingLayout = (function (){
 	
 		var DockingLayout = function (){}
 		var chartEventFactory = {};
 		var layoutComponents = {};
+		
+		DockingLayout.prototype.dropEvt = function(){//TODO}
 		
 		chartEventFactory.createChart = function(){//TODO}
 		chartEventFactory.deleteChart = function(){//TODO}
