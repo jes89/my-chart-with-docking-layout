@@ -139,7 +139,42 @@ MVC의 좋은 구조와 유지보수 유용함을 항상 느끼고 있기때문�
 
 		}
 
+# 도킹 레이아웃 구현 방법
 
+차트를 드래그해서 붙일 수 있는 영역을 만드는  ContentsContainer.js는
+
+DockingLayout.js을 상속 받고
+
+	comm.extendClass( DockingLayout, ContentsContainer );
+	
+	extendClass : function( superClass, childClass ){
+				
+		var protoTypeArr = Object.keys(superClass.prototype);
+		var protoAttr = null;
+
+		for(var ix = 0, ixLen = protoTypeArr.length; ix < ixLen; ix++){
+			protoAttr = protoTypeArr[ix];
+			childClass.prototype[protoAttr] = superClass.prototype[protoAttr];
+		}
+
+	}
+
+
+DockingLayout.js는 
+
+chartEventFactory 객체와 layoutComponents 객체를 포함하는데
+
+chartEventFactory는 chart의 CRUD의 이벤트를 가지고 있으며
+
+각각 이벤트는 layoutComponents에서 이벤 이벤트에대한 Component를 가져와 
+
+Component 객체의 CRUD를 수행한다.
+
+Component는 DockingLayout의 innerClass이며 
+
+필요에따라 Component.parent에 있는 영역에서 CRUD가 진행된다.
+
+	
 # 부가설명 
 <strong>해당 프로젝트는 크롬에 최적화 </strong>되었으며
 
