@@ -20,6 +20,7 @@
 			var syncOption = document.createElement("li");
 			var removeOption = document.createElement("li");
 			var restoreOption = document.createElement("li");
+			var protectOption = document.createElement("li");
 			
 			arrowWrapper.className = "right_menu_arrow";
 			rightSideMenuContainer.className = "right_menu";
@@ -29,6 +30,7 @@
 			syncOption.className = "right_menu_table_sync_btn";
 			removeOption.className = "right_menu_table_remove_btn";
 			restoreOption.className = "right_menu_table_restore_btn";
+			protectOption.className = "right_menu_table_unprotect_btn";
 			
 			historydate.textContent = "일자";
 			historyContents.textContent = "내용";
@@ -36,6 +38,7 @@
 			options.appendChild(syncOption);
 			options.appendChild(removeOption);
 			options.appendChild(restoreOption);
+			options.appendChild(protectOption);
 			
 			historyHead.appendChild(historydate);
 			historyHead.appendChild(historyContents);
@@ -70,18 +73,21 @@
 			var rightSideMenuContainer = this.rightSideMenuContainer;
 			var arrowWrapper = this.arrowWrapper;
 			var arrowBtn = this.arrowBtn;
-			
+			var activeRight = "0";
+			var activeMargin = "-35px";
+			var unactiveRight = "-300px";
+			var unactiveMargin = "-25px";
 			arrowBtn.addEventListener("click", function(){
 				
 				var classList = this.classList;
 				
 				if(classList.contains("active")){
-					rightSideMenuContainer.style.right = "-300px"
-					arrowWrapper.style.left = "-25px";
+					rightSideMenuContainer.style.right = unactiveRight;
+					arrowWrapper.style.left = unactiveMargin;
 					classList.remove("active");
 				} else{
-					rightSideMenuContainer.style.right = "0";
-					arrowWrapper.style.left = "-35px";
+					rightSideMenuContainer.style.right = activeRight;
+					arrowWrapper.style.left = activeMargin;
 					classList.add("active");
 				}
 			});

@@ -53,7 +53,7 @@ body {
 .right_menu .right_menu_table_options{
 	height: 30px;
     border: solid 1px #cacaca;
-  	margin-bottom: 10px;
+  	margin-bottom: 15px;
 }
 
 .right_menu .right_menu_table_options ul{
@@ -68,19 +68,32 @@ body {
 }
 
 .right_menu .right_menu_table_options .right_menu_table_sync_btn{
-	background-image: url("/img/iconmonstr-undo-7.svg");
+	background-image: url("/img/iconmonstr-redo-1_reverse.png");
 	background-repeat: no-repeat, repeat;
     background-position: center center;
 }
 
 .right_menu .right_menu_table_options .right_menu_table_remove_btn{
-	background-image: url("/img/iconmonstr-trash-can-28.svg");
+	background-image: url("/img/if_editor-trash-delete-recycle-bin-glyph_763325_reverse.png");
 	background-repeat: no-repeat, repeat;
     background-position: center center;
 }
 
 .right_menu .right_menu_table_options .right_menu_table_restore_btn{
-	background-image: url("/img/iconmonstr-undo-7.svg");
+	background-image: url("/img/iconmonstr-undo-7_reverse.png");
+	background-repeat: no-repeat, repeat;
+    background-position: center center;
+}
+
+.right_menu .right_menu_table_options .right_menu_table_protect_btn{
+	background-image: url("/img/iconmonstr-shield-5_reverse.png");
+	background-repeat: no-repeat, repeat;
+    background-position: center center;
+}
+
+
+.right_menu .right_menu_table_options .right_menu_table_unprotect_btn{
+	background-image: url("/img/iconmonstr-shield-14_reverse.png");
 	background-repeat: no-repeat, repeat;
     background-position: center center;
 }
