@@ -145,13 +145,8 @@ MVC의 좋은 구조와 유지보수 유용함을 항상 느끼고 있기때문�
 
 DockingLayout.js을 상속 받고
 	
-	if(typeof(DockingLayout) !== "function"){
-		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
-		return;
-	}
 	
-	comm.extendClass( DockingLayout, ContentsContainer );
-	
+	//common.js
 	extendClass : function( superClass, childClass ){
 				
 		var protoTypeArr = Object.keys(superClass.prototype);
@@ -163,6 +158,16 @@ DockingLayout.js을 상속 받고
 		}
 
 	}
+	
+	//ContentsContainer.js
+	if(typeof(DockingLayout) !== "function"){
+		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
+		return;
+	}
+	
+	comm.extendClass( DockingLayout, ContentsContainer );
+	
+	
 
 프로퍼티 탐색에서 for in문 대신 Object.keys를 사용한 이유는
 
