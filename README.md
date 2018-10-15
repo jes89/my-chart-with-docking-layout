@@ -164,10 +164,11 @@ DockingLayout.js을 상속 받고
 
 	}
 
+프로퍼티 탐색에서 for in문 대신 Object.keys를 사용한 이유는
 
-DockingLayout.js는 
+for in문은 Object.keys보다 최소 몇백배에서 최대 몇천배까지의 탐색시간이 소요되기때문입니다.
 
-chartEventFactory 객체와 layoutComponents 객체를 포함하는데
+DockingLayout.js는 chartEventFactory 객체와 layoutComponents 객체를 포함하는데
 
 chartEventFactory는 chart의 CRUD의 이벤트를 가지고 있으며
 
