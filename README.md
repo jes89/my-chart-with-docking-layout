@@ -171,13 +171,13 @@ chartEventFactory 객체와 layoutComponents 객체를 포함하는데
 
 chartEventFactory는 chart의 CRUD의 이벤트를 가지고 있으며
 
-각각 이벤트는 layoutComponents에서 이벤 이벤트에대한 Component를 가져와 
+각각 이벤트는 layoutComponents에서 이벤 이벤트에대한 Component를 가져와서 
 
-Component 객체의 CRUD를 수행한다.
+Component 객체의 CRUD를 수행합니다.
 
 Component는 DockingLayout의 innerClass이며 
 
-필요에따라 Component.parent에 있는 영역에서 CRUD가 진행된다.
+필요에따라 Component.parent에 있는 영역에서 CRUD가 진행됩니다.
 
 	var DockingLayout = (function (){
 	
