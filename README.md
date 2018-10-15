@@ -144,7 +144,12 @@ MVC의 좋은 구조와 유지보수 유용함을 항상 느끼고 있기때문�
 차트를 드래그해서 붙일 수 있는 영역을 만드는  ContentsContainer.js는
 
 DockingLayout.js을 상속 받고
-
+	
+	if(typeof(DockingLayout) !== "function"){
+		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
+		return;
+	}
+	
 	comm.extendClass( DockingLayout, ContentsContainer );
 	
 	extendClass : function( superClass, childClass ){
