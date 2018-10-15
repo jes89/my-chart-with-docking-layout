@@ -1,11 +1,14 @@
 (function(){
-	var UserRightSideMene = function() {
+	var UserRightSideMene = (function() {
 		
-		this.init = function(userNm) {
+		var UserRightSideMene = function (){}
+		
+		UserRightSideMene.prototype.init = function(userNm) {
 			initLayout();
 		}
 		
 		var initLayout = function(){
+			
 			var rootContainer = comm.getElById("rootContainer");
 			var rightSideMenuContainer = document.createElement("div");
 			var arrowWrapper = document.createElement("div");
@@ -35,9 +38,9 @@
 			historydate.textContent = "일자";
 			historyContents.textContent = "내용";
 			
-			options.appendChild(syncOption);
-			options.appendChild(removeOption);
 			options.appendChild(restoreOption);
+			options.appendChild(removeOption);
+			options.appendChild(syncOption);
 			options.appendChild(protectOption);
 			
 			historyHead.appendChild(historydate);
@@ -77,6 +80,7 @@
 			var activeMargin = "-35px";
 			var unactiveRight = "-300px";
 			var unactiveMargin = "-25px";
+			
 			arrowBtn.addEventListener("click", function(){
 				
 				var classList = this.classList;
@@ -91,8 +95,13 @@
 					classList.add("active");
 				}
 			});
+			
 		}
-	}
+		
+		return UserRightSideMene;
+	})();
+	
+	
 
     var rightSideMene = new UserRightSideMene();
     

@@ -1,7 +1,20 @@
-var ContentsContainer = function() {
+var ContentsContainer = (function() {
 	
-	this.init = function(subContainerSize) {
+	var superClass = null;
+	
+	var ContentsContainer = function(){}
+	
+	if(typeof(DockingLayout) !== "function"){
+		comm.errorLog("ContentsContainer.js have to extend DockingLayout.js");
+		return;
+	}
+	
+	comm.extendClass( DockingLayout, ContentsContainer );
+	
+	ContentsContainer.prototype.init = function(subContainerSize) {
+		
 		initLayout(subContainerSize);
+		
 	}
 		
 	var initLayout = function(subContainerSize){
@@ -33,8 +46,21 @@ var ContentsContainer = function() {
 			tempEl.style.height = eachHeight + "px";
 			
 			contentsWrapper.appendChild(tempEl);
-		
+			
+			addDragDropEvt(tempEl);
 		}
 	}
-}
+	
+	
+	var addDragDropEvt = function(contentsWrapper){
+		contentsWrapper.addEventListener("dragover", function(){event.preventDefault();});
+		contentsWrapper.addEventListener("drop", ContentsContainer.prototype.dropEvt);
+	}
+	
+	return ContentsContainer;
+	
+})();
+
+
+
 

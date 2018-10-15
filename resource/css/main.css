@@ -1,4 +1,14 @@
 @charset "UTF-8";
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
 html,body {
 	height: 100%;
 }
@@ -38,22 +48,34 @@ body {
     right: -300px;
 	width : 300px;
     height: calc(100% - 54px);
+    border: solid 1px gray;
     background-color: #353535;
-    border: solid 1px #232323;
    	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
 }
 
 .right_menu .right_menu_table{
 	height: 100%;
-	padding:10px;
-
+	overflow-y: scroll;
 }
+
+.right_menu .right_menu_table th{
+	border: solid 1px gray;
+	padding:5px;
+}
+
+.right_menu .right_menu_table td{
+	border: solid 1px gray;
+	padding:5px;
+}
+
+    
 
 .right_menu .right_menu_table_options{
 	height: 30px;
     border: solid 1px #cacaca;
   	margin-bottom: 15px;
+  	padding: 5px 0;
 }
 
 .right_menu .right_menu_table_options ul{
@@ -64,6 +86,7 @@ body {
 	float : left;
 	height: 100%;
 	width: 50px;
+    cursor: pointer;
 	
 }
 

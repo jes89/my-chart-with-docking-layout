@@ -11,6 +11,17 @@ var singleObj = (function() {
 			getHead : function() {
 				return gObj.headEl;
 			},
+			extendClass : function( superClass, childClass ){
+				
+				var protoTypeArr = Object.keys(superClass.prototype);
+				var protoAttr = null;
+				
+				for(var ix = 0, ixLen = protoTypeArr.length; ix < ixLen; ix++){
+					protoAttr = protoTypeArr[ix];
+					childClass.prototype[protoAttr] = superClass.prototype[protoAttr];
+				}
+				
+			},
 			getNowDate : function(msg) {
 				var now = new Date();
 				var year = now.getFullYear();
@@ -45,9 +56,9 @@ var singleObj = (function() {
 				
 			},
 			errorLog : function(msg) {
-				var fullDate = getNowDate();
+				var fullDate = this.getNowDate();
 
-				console.log(fullDate + " : " + msg);
+				console.error(fullDate + "  " + msg);
 			}
 		}
 	}

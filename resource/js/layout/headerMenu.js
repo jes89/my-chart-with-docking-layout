@@ -1,10 +1,11 @@
 
 (function(){
-	var UserHeaderMenu = function() {
+	var UserHeaderMenu = (function() {
+		
+		var UserHeaderMenu = function(){}
 		
 		
-		
-		this.init = function(settingInfo) {
+		UserHeaderMenu.prototype.init = function(settingInfo) {
 			initLayout(settingInfo);
 		}
 		
@@ -24,20 +25,41 @@
 			
 			var userOptionsWrap = document.createElement("ul");
 			var tempOption = null;
+			var chartNm = null;
 			
 			for(var ix = 0, ixLen = userOptions.length; ix < ixLen; ix ++){
+				
+				chartNm = userOptions[ix];
+				
 				tempOption = document.createElement("li");
 				
 				tempOption.className = userOptions[ix];
-				tempOption.textContent = userOptions[ix];
+				tempOption.textContent = chartNm
+				
+				tempOption.setAttribute("data-type", chartNm.replace("Chart",""));
 				
 				userOptionsWrap.appendChild(tempOption);
+				
+				addDragStartEvt(tempOption);
 			}
 			
 			headerContainer.appendChild(userOptionsWrap);
 		}
 		
-	}
+		var addDragStartEvt = function(chartOption){
+			
+			chartOption.draggable = true;
+			
+			chartOption.addEventListener("dragstart", function(){
+				event.dataTransfer.setData("event-type", "createChart");
+				event.dataTransfer.setData("chart-type", this.getAttribute("data-type"));
+			});
+			
+		}
+		
+		return UserHeaderMenu;
+		
+	})();
 	
     var headerMenu = new UserHeaderMenu();
     
@@ -53,9 +75,6 @@
 							"historyChart"
 						]
     }
-    
-
-
     
     headerMenu.init(settingInfo);
 })();
