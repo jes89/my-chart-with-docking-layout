@@ -13,4 +13,4 @@ app.use('/', route);
 
 app.listen(8080, function() {});
 
-module.exports = router; 
+module.exports = { app, router }; 

@@ -1,17 +1,15 @@
-let WebSocketServer = require("websocket").server;
-let http = require("http");
-let server = http.createServer(function(request, response) {
-});
+const WebSocketServer = require("websocket").server;
+const http = require("http");
+const server = http.createServer(function(request, response) {});
 
-server.listen(1337, function() {
-});
+server.listen(1337, function() {});
 
 wsServer = new WebSocketServer({
 	httpServer : server
 });
 
 wsServer.on("request", function(request) {
-	var connection = request.accept(null, request.origin);
+	let connection = request.accept(null, request.origin);
 
 	connection.on("message", function(message) {
 		if (message.type === "utf8") {

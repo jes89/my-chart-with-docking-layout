@@ -29,17 +29,68 @@ body {
 	vertical-align: middle;
 	display: table-cell;
     padding: 0 10px;
+    color: #cacaca;
+    cursor: pointer;
 }
 
 .right_menu {
     position: fixed;
-    right: 0;
-	width : 0;
+    right: -300px;
+	width : 300px;
     height: calc(100% - 54px);
     background-color: #353535;
     border: solid 1px #232323;
    	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
+}
+
+.right_menu .right_menu_table{
+	height: 100%;
+	padding:10px;
+
+}
+
+.right_menu .right_menu_table_options{
+	height: 30px;
+    border: solid 1px #cacaca;
+  	margin-bottom: 10px;
+}
+
+.right_menu .right_menu_table_options ul{
+	height: 100%;
+}
+
+.right_menu .right_menu_table_options li{
+	float : left;
+	height: 100%;
+	width: 50px;
+	
+}
+
+.right_menu .right_menu_table_options .right_menu_table_sync_btn{
+	background-image: url("/img/iconmonstr-undo-7.svg");
+	background-repeat: no-repeat, repeat;
+    background-position: center center;
+}
+
+.right_menu .right_menu_table_options .right_menu_table_remove_btn{
+	background-image: url("/img/iconmonstr-trash-can-28.svg");
+	background-repeat: no-repeat, repeat;
+    background-position: center center;
+}
+
+.right_menu .right_menu_table_options .right_menu_table_restore_btn{
+	background-image: url("/img/iconmonstr-undo-7.svg");
+	background-repeat: no-repeat, repeat;
+    background-position: center center;
+}
+
+
+
+.right_menu div table{
+	width: 100%;
+    color: #cacaca;
+    padding : 10px;
 }
 
 i {
@@ -53,7 +104,9 @@ i {
     position: absolute;
 	left: -25px;
 	top: 50%;
+	cursor: pointer;
 }
+
 .right_menu_arrow i {
 	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
