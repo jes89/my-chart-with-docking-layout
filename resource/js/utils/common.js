@@ -40,8 +40,7 @@ var singleObj = (function() {
 					second = "0" + second;
 				}
 
-				return year + "-" + month + "-" + date + " " + hour + ":" + minute
-						+ ":" + second + " " + milliSecond;
+				return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second + " " + milliSecond;
 			}, 
 			getElById : function(id){
 				
@@ -58,7 +57,7 @@ var singleObj = (function() {
 			errorLog : function(msg) {
 				var fullDate = this.getNowDate();
 
-				console.error(fullDate + "  " + msg);
+				console.warn(fullDate + " , " + msg);
 			}
 		}
 	}

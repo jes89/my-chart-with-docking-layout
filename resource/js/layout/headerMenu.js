@@ -14,6 +14,8 @@
 			var headerContainer = document.createElement("div");
 			var rootContainer = comm.getElById("rootContainer");
 			
+			headerContainer.id = "header";
+			
 			headerContainer.className = "header";
 
 			rootContainer.appendChild(headerContainer);

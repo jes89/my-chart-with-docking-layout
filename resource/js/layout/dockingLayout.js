@@ -4,6 +4,41 @@ var DockingLayout = (function (){
 	var chartEventFactory = {};
 	var contentsContainer = {};
 	
+	var appendPartition = function( parent, partitionWidth, layoutContainer, type , insertType ){
+		
+		var partition = document.createElement( "div" );
+		var width = null;
+		var height = null;
+		
+		partition.className = "partition " + type;
+		
+		if(type === "horizontal"){
+			width = partitionWidth + "px";
+			height = layoutContainer.style.height;
+		} else{
+			width = layoutContainer.style.width || (layoutContainer.offsetWidth + "px");
+			height = partitionWidth + "px";
+		}
+	
+		partition.style.width = width;
+		partition.style.height = height;
+		
+		if ( insertType === "before" ) {
+			parent.insertBefore( partition , layoutContainer);
+		} else{
+			parent.appendChild( partition );
+		}
+		
+		partition.addEventListener( "dragstart"	, function(){event.preventDefault();});
+		partition.addEventListener( "dragover"	, function(){event.preventDefault();});
+		partition.addEventListener( "drop"		, function(){event.preventDefault();});
+		
+	}
+	
+	DockingLayout.prototype.partitionWidth = 10;
+	
+	DockingLayout.prototype.appendPartition = appendPartition;
+	
 	DockingLayout.prototype.dropEvt = function(){
 		
 		event.preventDefault();
@@ -42,7 +77,7 @@ var DockingLayout = (function (){
 		
 		var key = +new Date();
 		var index = contentsWrapper.getAttribute("data-index");
-		var newComponent = new Components(contentsWrapper,chartType);
+		var newComponent = new Components( contentsWrapper, chartType );
 		var layoutComponents  = null;
 		
 		if(contentsContainer[index] == null){
@@ -53,7 +88,9 @@ var DockingLayout = (function (){
 		
 		layoutComponents  = contentsContainer[index];
 		
-		newComponent.create(contentsContainer[index]);
+		newComponent.parentComponents = layoutComponents;
+		
+		newComponent.create(newComponent);
 	}
 	
 	chartEventFactory.deleteChart = function(contentsWrapper){
@@ -68,14 +105,15 @@ var DockingLayout = (function (){
 		
 		var that = null;
 		
-		var Components = function( partent, chartType ){
+		var Components = function( parent, chartType ){
 			that = this;
-			this.partent = partent;
+			this.parent = parent;
 			this.chartType = chartType;
+			this.parentComponents = null;
 		}
 		
-		Components.prototype.create = function(layoutComponents){
-			appendChartContainer(layoutComponents);
+		Components.prototype.create = function( layoutComponents, newComponent ){
+			appendChartContainer( layoutComponents, newComponent );
 		}
 		
 		Components.prototype.remove = function(){
@@ -86,28 +124,47 @@ var DockingLayout = (function (){
 			
 		}
 		
-		var appendChartContainer = function( layoutComponents ){
+		var appendChartContainer = function( newComponent ){
 			
-			var layoutContainer = document.createElement( "div" );
+			var parent 				= that.parent;
+			var layoutComponents 	= newComponent.parentComponents;
 			var layoutComponentKeys = Object.keys( layoutComponents );
-			var partentBorder = 2;
-			var key = null;
-			var partent = that.partent;
-			
+			var ixLen 				= layoutComponentKeys.length;
+			var layoutContainer 	= document.createElement( "div" );
+			var partentBorder 		= parent.style.borderWidth.replace("px","");
+			var partentPadding 		= parent.style.padding.replace("px","");
+			var wrapperBorder 		= partentBorder;
+			var partitionWidth 		= DockingLayout.prototype.partitionWidth;
+			var parentWidth 		= parent.offsetWidth - (partentBorder * 2) - (partentPadding * 2) - (partitionWidth * (ixLen - 1) ) ;
+			var parentHeight 		= parent.offsetHeight - (partentBorder * 2) - (partentPadding * 2) - (wrapperBorder * 2);
+			var key 				= null;
+			var tempComponet 		= null;
+			var tempLayoutContainer = null;
+			var partition 			= null;
+		
 			that.layoutContainer = layoutContainer;
 			
-			for( var ix = 0, ixLen = layoutComponentKeys.length; ix < ixLen; ix++ ){
+			for( var ix = 0; ix < ixLen; ix++ ){
 				
 				key = layoutComponentKeys[ix];
 				
-				layoutComponents[key].layoutContainer.style.width = (partent.offsetWidth / ixLen) - partentBorder + "px";
+				tempComponet = layoutComponents[key];
+				
+				tempLayoutContainer = tempComponet.layoutContainer;
+				
+				tempLayoutContainer.style.width = ( parentWidth / ixLen ) - (wrapperBorder * 2) + "px";
+				tempLayoutContainer.style.height = parentHeight + "px";
 			}
 			
 			layoutContainer.className = "layout_container";
+			layoutContainer.style.border = "solid gray";
+			layoutContainer.style.borderWidth = partentBorder + "px";
 			
-			partent.appendChild( layoutContainer );
+			parent.appendChild( layoutContainer );
 			
-			
+			if(ixLen > 1){
+				appendPartition( parent, partitionWidth, layoutContainer , "horizontal" , "before" );
+			}
 			
 		}
 		
