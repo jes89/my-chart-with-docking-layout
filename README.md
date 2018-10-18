@@ -189,7 +189,8 @@ Component는 DockingLayout의 innerClass이며
 	
 		var DockingLayout = function (){}
 		var chartEventFactory = {};
-		var layoutComponents = {};
+		var contentsContainer = {};
+		var layoutComponents = null;
 		
 		DockingLayout.prototype.dropEvt = function(){//TODO}
 		
