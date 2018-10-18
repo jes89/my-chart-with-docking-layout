@@ -7,13 +7,15 @@ html
     link(rel="stylesheet" href="/css/main.css")
 
     script(defer , src="/js/extendProtoType/functionProtoExtend.js")
+    script(defer , src="/js/utils/observer.js")
     script(defer , src="/js/utils/common.js")
-    script(defer , src="/js/utils/clientsWebSocket.js")
-    script(defer , src="/js/workingHistory.js")
     script(defer , src="/js/layout/headerMenu.js")
     script(defer , src="/js/layout/rightSideMenu.js")
-    script(defer , src="/js/layout/dockingLayout.js")
-    script(defer , src="/js/layout/contentsContainer.js")
+    script(defer , src="/js/chart/component.js")
+    script(defer , src="/js/chart/ballChart.js")
+    script(defer , src="/js/chart/scatterChart.js")
+    script(defer , src="/js/chart/chartFactory.js")
+    script(defer , src="/js/layout/chartsContainer.js")
   body
   
   #rootContainer
@@ -21,17 +23,12 @@ html
 
   script.
     document.addEventListener("DOMContentLoaded", function(){
-      
-      var contentsContainer = new ContentsContainer();
-      var subContainerSize = 3;
-      
-      contentsContainer.init(subContainerSize);
-      
+      new ChartsContainer().init();
     });
     
 
     
     
-    
+
     
     

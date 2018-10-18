@@ -38,7 +38,7 @@
 				tempOption.className = userOptions[ix];
 				tempOption.textContent = chartNm
 				
-				tempOption.setAttribute("data-type", chartNm.replace("Chart",""));
+				tempOption.setAttribute("data-type", chartNm);
 				
 				userOptionsWrap.appendChild(tempOption);
 				
@@ -53,7 +53,7 @@
 			chartOption.draggable = true;
 			
 			chartOption.addEventListener("dragstart", function(){
-				event.dataTransfer.setData("event-type", "createChart");
+				event.dataTransfer.setData("event-type", "draw");
 				event.dataTransfer.setData("chart-type", this.getAttribute("data-type"));
 			});
 			

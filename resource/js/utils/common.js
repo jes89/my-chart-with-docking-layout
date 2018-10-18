@@ -54,6 +54,31 @@ var singleObj = (function() {
 				return selectedEl;
 				
 			},
+			getNumWithoutPx : function(el,style){
+				var result = null;
+				var selectedStyle = null;
+				var replacedStr = null;
+				
+				if(el){
+					selectedStyle = el.style[style];
+					if(selectedStyle){
+						replacedStr = selectedStyle.replace("px","");
+						if(isNaN(replacedStr)){
+							result = 0;
+						} else{
+							result = replacedStr * 1;
+						}
+					} else{
+						result = 0;
+					}
+				} else{
+					result = 0;
+				}
+				
+				
+				return result;
+				
+			},
 			errorLog : function(msg) {
 				var fullDate = this.getNowDate();
 

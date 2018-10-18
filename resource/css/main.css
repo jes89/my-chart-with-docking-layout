@@ -153,13 +153,9 @@ i {
     -webkit-transform: rotate(-45deg);
 }
 
-.contents_root_container {
-    border: 1px solid gray;
-    padding: 10px;
-}
 
-.contents_root_container .contents_sub_container .layout_container {
-	display : inline-block;
+.component_wrapper {
+  	position: absolute;
 }
 
 .partition:hover{
@@ -167,12 +163,12 @@ i {
 }
 
 .partition.horizontal  {
-    cursor : e-resize;
-    display : inline-block;
+    cursor : n-resize;
+    display : block;
 }
 
 .partition.vertical  {
-    cursor : n-resize;
-    display : block;
+    cursor : e-resize;
+    display : inline-block;
 }
 
