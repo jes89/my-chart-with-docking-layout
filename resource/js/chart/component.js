@@ -1,7 +1,5 @@
 var Component = (function(){
 	
-	var mo
-	
 	var Component = function( type, position, previousSibling, nextSibling, self ){
 		this.type = type;
 		this.position = position;
@@ -15,6 +13,21 @@ var Component = (function(){
 	Component.prototype.index = 0;
 	Component.prototype.observer = new Observer();
 	Component.prototype.componentsList = [];
+	
+	Component.prototype.hidePreviwArea = function(){
+		var previewTop = comm.getElById("previewTop");
+		var previewRight = comm.getElById("previewRight");
+		var previewBottom = comm.getElById("previewBottom");
+		var previewLeft = comm.getElById("previewLeft");
+		
+		previewTop.style.top = "-10000px";
+		previewRight.style.top = "-10000px";
+		previewBottom.style.top = "-10000px";
+		previewLeft.style.top = "-10000px";
+	}
+	
+	
+
 	
 	Component.prototype.draw = function( chartType, component, isPrevious ) {
 		
@@ -42,13 +55,15 @@ var Component = (function(){
 		
 		event.stopPropagation();
 		
+		Component.prototype.hidePreviwArea();
+		
 		var targetEl = event.target;
 		var eventType = event.dataTransfer.getData("event-type");
 		var chartType = event.dataTransfer.getData("chart-type");
 		var siblingIndex = targetEl.getAttribute("data-index");
 		var currentIndex = Component.prototype.index;
 		var siblingComponent = Component.prototype.componentsList[siblingIndex];
-		var position = getPosition(event);
+		var position = getPosition(event.offsetX , event.offsetY);
 		var isPrevious = getIsPreviousType(position);
 		var previousSibling = null;
 		var nextSibling = null;
@@ -71,6 +86,8 @@ var Component = (function(){
 		}
 		
 		component[eventType](chartType, component, isPrevious );
+		
+		Component.prototype.index++;
 	};
 	
 	var preventEevnt = function(){event.preventDefault();}
@@ -99,10 +116,8 @@ var Component = (function(){
 		}
 	}
 	
-	var getPosition = function(event){
+	var getPosition = function(x, y){
 	    
-		var x = event.offsetX;
-		var y = event.offsetY;
 		var targetEl = event.target;
 		var quarterWidth = targetEl.offsetWidth / 4;
 		var halfHeight = comm.getNumWithoutPx(targetEl,"height") / 2;
@@ -161,7 +176,11 @@ var Component = (function(){
 		componentWrapper.setAttribute("data-index", component.index);
 		
 		setComponentStyle(targetEl, isPrevious, component, siblingComponent);
-
+		
+		componentWrapper.textContent = component.type + "미구현";
+		componentWrapper.style.color = "white";
+		componentWrapper.style.textAlign = "center";
+		
 		if(siblingComponent){
 			var siblingComponentSelf = siblingComponent.self;
 			if(isPrevious){
@@ -170,15 +189,84 @@ var Component = (function(){
 				insertAfter(siblingComponentSelf, componentWrapper);
 			}
 		} else{
-			targetEl.appendChild(componentWrapper);
+			var contentsRootContainer = comm.getElById("contentsRootContainer")
+			contentsRootContainer.appendChild(componentWrapper);
 		}
 		
 		componentWrapper.ondragstart = preventEevnt;
-		componentWrapper.ondragover = preventEevnt;
 		componentWrapper.ondrop = Component.prototype.drop;
-		
-		
-		Component.prototype.index++;
+		componentWrapper.ondragover = function(){
+			
+			var targetEl = event.target;
+			var previewTop = comm.getElById("previewTop");
+			var previewRight = comm.getElById("previewRight");
+			var previewBottom = comm.getElById("previewBottom");
+			var previewLeft = comm.getElById("previewLeft");
+			var position = getPosition(event.offsetX , event.offsetY);
+			var diviedType = getDiviedType(position);
+			var width = null;
+			var height = null;
+			var top = null;
+			var right = null;
+			var bottom = null;
+			var left = null;
+			
+			if(diviedType === "horizontal"){
+				width = targetEl.offsetWidth / 2;
+				height = targetEl.offsetHeight;
+			} else{
+				width = targetEl.offsetWidth;
+				height = targetEl.offsetHeight / 2;
+			}
+			
+			switch(position){
+				case "top" :
+					top = targetEl.offsetTop;
+					left = targetEl.offsetLeft;
+					right = left + width;
+					bottom = top + height;
+					break;
+				case "bottom" :
+					top = targetEl.offsetTop + ( comm.getNumWithoutPx(targetEl, "height") / 2 );
+					left = targetEl.offsetLeft;
+					right = left + width;
+					bottom = top + height;
+					break;
+				case "left" :
+					top = targetEl.offsetTop;
+					left = targetEl.offsetLeft;
+					right = left + width;
+					bottom = top + height;
+					break;
+				case "right" :
+					top = targetEl.offsetTop;
+					left = targetEl.offsetLeft  + ( comm.getNumWithoutPx(targetEl, "width") / 2 );
+					right = left + width;
+					bottom = top + height;
+					break;
+					
+					default:
+						
+						break;
+			}
+			
+			previewTop.style.top =  top + "px";
+			previewTop.style.left =  left + "px";
+			previewTop.style.width = width + "px";
+			
+			previewRight.style.left =  right + "px";
+			previewRight.style.top = top + "px";
+			previewRight.style.height = height + "px";
+			
+			previewBottom.style.top =  bottom + "px"; 
+			previewBottom.style.width = width + "px";
+			previewBottom.style.left =  left + "px";
+			
+			previewLeft.style.left =  left + "px";
+			previewLeft.style.top = top + "px";
+			previewLeft.style.height = height + "px";
+			
+		}
 		
 	}
 	

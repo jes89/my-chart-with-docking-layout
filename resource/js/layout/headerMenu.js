@@ -56,7 +56,6 @@
 				event.dataTransfer.setData("event-type", "draw");
 				event.dataTransfer.setData("chart-type", this.getAttribute("data-type"));
 			});
-			
 		}
 		
 		return UserHeaderMenu;
