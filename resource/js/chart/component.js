@@ -190,6 +190,12 @@ var Component = (function(){
 			contentsRootContainer.appendChild(componentWrapper);
 		}
 		
+		initComponentEvent(componentWrapper);
+		
+	}
+	
+	var initComponentEvent = function(componentWrapper){
+		
 		componentWrapper.ondragstart = preventEevnt;
 		componentWrapper.ondrop = Component.prototype.drop;
 		componentWrapper.ondragover = function(){
@@ -264,7 +270,6 @@ var Component = (function(){
 			previewLeft.style.height = height + "px";
 			
 		}
-		
 	}
 	
 	var setComponentStyle = function(targetEl, isPrevious, component, siblingComponent){
@@ -282,7 +287,8 @@ var Component = (function(){
 		var minusStylePx = null;
 		var resultWidth = null;
 		var resultHeight = null;
-		
+		var nextSiblingTop = null;
+		var nextSiblingLeft = null;
 		
 		if(Component.prototype.index === 0){
 			minusStylePx = -(boarder * 2) * divisionValue;
@@ -302,9 +308,6 @@ var Component = (function(){
 			resultHeight = ( targetHeight + minusStylePx) / divisionValue;
 		}
 		
-		var resultTop = targetEl.offsetTop + resultHeight;
-		var resultLeft = targetEl.offsetLeft + resultWidth;
-		
 		componentWrapper.style.width = resultWidth + "px";
 		componentWrapper.style.height = resultHeight + "px";
 		componentWrapper.style.border = "solid gray";
@@ -316,49 +319,30 @@ var Component = (function(){
 			siblingComponentSelf.style.height = resultHeight + "px";
 		} 
 		
-
-		if(diviedType === "horizontal"){
-			if(isPrevious){
-				if(siblingComponentSelf){
-					
-					componentWrapper.style.top = targetEl.offsetTop + "px";
-					componentWrapper.style.left = targetEl.offsetLeft + "px"
-					
-					siblingComponentSelf.style.top = targetEl.offsetTop + "px";
-					siblingComponentSelf.style.left = resultLeft + "px";
-					
-				}
-			} else{
-				if(siblingComponentSelf){
-					siblingComponentSelf.style.top = targetEl.offsetTop + "px";
-					siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
-					
-					componentWrapper.style.top = targetEl.offsetTop + "px";
-					componentWrapper.style.left = resultLeft + "px";
-				}
-			}
-		} else{
-			if(isPrevious){
-				if(siblingComponentSelf){
-					
-					componentWrapper.style.top = targetEl.offsetTop + "px";
-					componentWrapper.style.left = targetEl.offsetLeft + "px";
-					
-					siblingComponentSelf.style.top = resultTop + "px";
-					siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
-					
-				}
-			} else{
-				if(siblingComponentSelf){
-					
-					siblingComponentSelf.style.top = targetEl.offsetTop + "px";
-					siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
-					
-					componentWrapper.style.top = resultTop + "px";
-					componentWrapper.style.left = targetEl.offsetLeft + "px";
-				}
-			}
+		if(siblingComponentSelf == null){
+			return;
 		}
+		
+		if(diviedType === "horizontal"){
+			nextSiblingTop = targetEl.offsetTop;
+			nextSiblingLeft = targetEl.offsetLeft + resultWidth;
+		} else{
+			nextSiblingTop = targetEl.offsetTop + resultHeight;
+			nextSiblingLeft = targetEl.offsetLeft;
+		}
+		
+		if(isPrevious){
+			componentWrapper.style.top = targetEl.offsetTop + "px";
+			componentWrapper.style.left = targetEl.offsetLeft + "px"
+			siblingComponentSelf.style.top = nextSiblingTop + "px";
+			siblingComponentSelf.style.left = nextSiblingLeft + "px";
+		} else{
+			siblingComponentSelf.style.top = targetEl.offsetTop + "px";
+			siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
+			componentWrapper.style.top = nextSiblingTop + "px";
+			componentWrapper.style.left = nextSiblingLeft + "px";
+		}
+		
 	}
 	
 	return Component;
