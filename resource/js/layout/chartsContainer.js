@@ -15,7 +15,7 @@ var ChartsContainer = (function() {
 		var chartsContainer = document.createElement("div");
 		var rootContainer = comm.getElById("rootContainer");
 		var header = comm.getElById("header");
-		var minusStylePx = - (rootContainerPadding * 2) - (rootContainerBoarder * 2);
+		var minusStylePx = - (rootContainerPadding * 2) - (rootContainerBoarder * 2) - (chartsContainerBoarder * 2); 
 		var resultWidth = rootContainer.offsetWidth + minusStylePx;
 		var resultHeight = rootContainer.offsetHeight - header.offsetHeight + minusStylePx;
 		

@@ -26,9 +26,6 @@ var Component = (function(){
 		previewLeft.style.top = "-10000px";
 	}
 	
-	
-
-	
 	Component.prototype.draw = function( chartType, component, isPrevious ) {
 		
 		var chart = abstracChartFactory.create(chartType); 
