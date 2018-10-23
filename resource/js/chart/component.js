@@ -9,7 +9,7 @@ var Component = (function(){
 	}
 	
 	Component.prototype.boarderWidth = 1;
-	Component.prototype.partitionWidth = 5;
+	Component.prototype.partitionWidth = 6;
 	Component.prototype.minSize = 50;
 	Component.prototype.index = 0;
 	Component.prototype.observer = new Observer();
@@ -212,6 +212,7 @@ var Component = (function(){
 		}
 		
 		initComponentEvent(componentWrapper);
+		initPartitionEvent(partitionEl);
 	}
 	
 	var initComponentEvent = function(componentWrapper){
@@ -283,6 +284,17 @@ var Component = (function(){
 			previewLeft.style.top = top + "px";
 			previewLeft.style.height = height + "px";
 		}
+	}
+	
+	var initPartitionEvent = function(partitionEl){
+		
+		partitionEl.addEventListener("mousedown", function(){
+			ChartsContainer.prototype.prePartitionY = event.y;
+			ChartsContainer.prototype.prePartitionX = event.x;
+
+		    ChartsContainer.prototype.isMouseDown = true;
+		    ChartsContainer.prototype.selectedPartition = event.target;
+		});
 	}
 	
 	var setComponentStyle = function(targetEl, isPrevious, component, siblingComponent, partitionEl){
@@ -368,7 +380,6 @@ var Component = (function(){
 			partitionEl.style.top = nextSiblingTop + "px";
 			partitionEl.style.left = nextSiblingLeft + "px";
 		}
-		
 	}
 	
 	return Component;
