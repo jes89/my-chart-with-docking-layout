@@ -9,12 +9,14 @@ var Component = (function(){
 	}
 	
 	Component.prototype.boarderWidth = 1;
-	Component.prototype.partitionWidth = 10;
+	Component.prototype.partitionWidth = 5;
+	Component.prototype.minSize = 50;
 	Component.prototype.index = 0;
 	Component.prototype.observer = new Observer();
 	Component.prototype.componentsList = [];
 	
 	Component.prototype.hidePreviwArea = function(){
+		
 		var previewTop = comm.getElById("previewTop");
 		var previewRight = comm.getElById("previewRight");
 		var previewBottom = comm.getElById("previewBottom");
@@ -24,6 +26,7 @@ var Component = (function(){
 		previewRight.style.top = "-10000px";
 		previewBottom.style.top = "-10000px";
 		previewLeft.style.top = "-10000px";
+		
 	}
 	
 	Component.prototype.draw = function( chartType, component, isPrevious ) {
@@ -62,14 +65,28 @@ var Component = (function(){
 		var siblingComponent = Component.prototype.componentsList[siblingIndex];
 		var position = getPosition(event.offsetX , event.offsetY);
 		var isPrevious = getIsPreviousType(position);
+		var diviedType = getDiviedType(position);
 		var previousSibling = null;
 		var nextSibling = null;
 		var component = null;
+		var mixSize = Component.prototype.minSize;
+		var targetSize = null;
 		
 		if(isPrevious){
 			previousSibling = siblingIndex;
 		} else{
 			nextSibling = siblingIndex;
+		}
+		
+		if(diviedType === "horizontal"){
+			targetSize = targetEl.offsetWidth / 2;
+		} else{
+			targetSize = targetEl.offsetHeight / 2;
+		}
+		
+		if(mixSize > targetSize){
+			alert("레이아웃의 사이즈는 최소 " + mixSize + "px 입니다.");
+			return;
 		}
 		
 		component = new Component( chartType, position, previousSibling, nextSibling );
@@ -146,7 +163,6 @@ var Component = (function(){
 		}
 		
 		return type;
-		
 	}
 	
 	var hasSibling = function(component){
@@ -166,32 +182,36 @@ var Component = (function(){
 		var siblingComponent = Component.prototype.componentsList[siblingIdx];
 		var targetEl = event.target;
 		var componentWrapper = document.createElement("div");
+		var partitionEl = document.createElement("div");
+		var contentsRootContainer = null;
+		var siblingComponentSelf = null;
 		
 		component.self = componentWrapper;
 		
 		componentWrapper.className = "component_wrapper";
 		componentWrapper.setAttribute("data-index", component.index);
 		
-		setComponentStyle(targetEl, isPrevious, component, siblingComponent);
+		setComponentStyle(targetEl, isPrevious, component, siblingComponent, partitionEl);
 		
 		componentWrapper.textContent = component.type + "미구현";
 		componentWrapper.style.color = "white";
 		componentWrapper.style.textAlign = "center";
 		
 		if(siblingComponent){
-			var siblingComponentSelf = siblingComponent.self;
+			siblingComponentSelf = siblingComponent.self;
 			if(isPrevious){
 				inserteBefore(siblingComponentSelf, componentWrapper);
+				inserteBefore(siblingComponentSelf, partitionEl);
 			} else{
 				insertAfter(siblingComponentSelf, componentWrapper);
+				insertAfter(siblingComponentSelf, partitionEl);
 			}
 		} else{
-			var contentsRootContainer = comm.getElById("contentsRootContainer")
+			contentsRootContainer = comm.getElById("contentsRootContainer")
 			contentsRootContainer.appendChild(componentWrapper);
 		}
 		
 		initComponentEvent(componentWrapper);
-		
 	}
 	
 	var initComponentEvent = function(componentWrapper){
@@ -226,32 +246,26 @@ var Component = (function(){
 				case "top" :
 					top = targetEl.offsetTop;
 					left = targetEl.offsetLeft;
-					right = left + width;
-					bottom = top + height;
 					break;
 				case "bottom" :
 					top = targetEl.offsetTop + ( comm.getNumWithoutPx(targetEl, "height") / 2 );
 					left = targetEl.offsetLeft;
-					right = left + width;
-					bottom = top + height;
 					break;
 				case "left" :
 					top = targetEl.offsetTop;
 					left = targetEl.offsetLeft;
-					right = left + width;
-					bottom = top + height;
 					break;
 				case "right" :
 					top = targetEl.offsetTop;
 					left = targetEl.offsetLeft  + ( comm.getNumWithoutPx(targetEl, "width") / 2 );
-					right = left + width;
-					bottom = top + height;
 					break;
 					
 					default:
-						
 						break;
 			}
+			
+			right = left + width;
+			bottom = top + height;
 			
 			previewTop.style.top =  top + "px";
 			previewTop.style.left =  left + "px";
@@ -268,11 +282,10 @@ var Component = (function(){
 			previewLeft.style.left =  left + "px";
 			previewLeft.style.top = top + "px";
 			previewLeft.style.height = height + "px";
-			
 		}
 	}
 	
-	var setComponentStyle = function(targetEl, isPrevious, component, siblingComponent){
+	var setComponentStyle = function(targetEl, isPrevious, component, siblingComponent, partitionEl){
 		
 		var siblingComponentSelf = null;
 		var componentWrapper = component.self;
@@ -303,9 +316,19 @@ var Component = (function(){
 		if(diviedType === "horizontal"){
 			resultWidth = ( targetWidth + minusStylePx) / divisionValue;
 			resultHeight = targetHeight;
+			
+			partitionEl.style.width = Component.prototype.partitionWidth + "px";
+			partitionEl.style.height = targetHeight + "px";
+			
+			partitionEl.className = "partition vertical";
 		} else{
 			resultWidth = targetWidth;
 			resultHeight = ( targetHeight + minusStylePx) / divisionValue;
+			
+			partitionEl.style.width = targetWidth + "px";
+			partitionEl.style.height = Component.prototype.partitionWidth + "px";
+			
+			partitionEl.className = "partition horizontal";
 		}
 		
 		componentWrapper.style.width = resultWidth + "px";
@@ -313,15 +336,14 @@ var Component = (function(){
 		componentWrapper.style.border = "solid gray";
 		componentWrapper.style.borderWidth = boarder + "px";
 		
-		if(siblingComponent){
-			siblingComponentSelf = siblingComponent.self;
-			siblingComponentSelf.style.width = resultWidth + "px";
-			siblingComponentSelf.style.height = resultHeight + "px";
-		} 
-		
-		if(siblingComponentSelf == null){
+		if(siblingComponent == null){
 			return;
 		}
+		
+		siblingComponentSelf = siblingComponent.self;
+		
+		siblingComponentSelf.style.width = resultWidth + "px";
+		siblingComponentSelf.style.height = resultHeight + "px";
 		
 		if(diviedType === "horizontal"){
 			nextSiblingTop = targetEl.offsetTop;
@@ -336,11 +358,15 @@ var Component = (function(){
 			componentWrapper.style.left = targetEl.offsetLeft + "px"
 			siblingComponentSelf.style.top = nextSiblingTop + "px";
 			siblingComponentSelf.style.left = nextSiblingLeft + "px";
+			partitionEl.style.top = nextSiblingTop + "px";
+			partitionEl.style.left = nextSiblingLeft + "px";
 		} else{
 			siblingComponentSelf.style.top = targetEl.offsetTop + "px";
 			siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
 			componentWrapper.style.top = nextSiblingTop + "px";
 			componentWrapper.style.left = nextSiblingLeft + "px";
+			partitionEl.style.top = nextSiblingTop + "px";
+			partitionEl.style.left = nextSiblingLeft + "px";
 		}
 		
 	}
