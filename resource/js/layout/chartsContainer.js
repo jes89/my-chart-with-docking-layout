@@ -54,7 +54,6 @@ var ChartsContainer = (function() {
 			var defaultPadding = containerPadding + ChartsContainer.prototype.chartsContainerBoarder;
 			var containerPadding = ChartsContainer.prototype.chartsContainerPadding;
 			var minSize = Component.prototype.minSize;
-			
 			var selectedPartition = ChartsContainer.prototype.selectedPartition;
 			var nowY = event.y;
 			var nowX = event.x;
@@ -70,7 +69,15 @@ var ChartsContainer = (function() {
 			var minHeight = minSize + previousSiblingTop;
 			var maxTop = previousSiblingTop + previousSiblingHeight + nextSiblingHeight - minSize;
 			var maxLeft = previousSiblingLeft + previousSiblingWidth + nextSiblingWidth - minSize;
-				
+			
+//		    var nextPreviousEl = previousSibling.previousElementSibling;
+//			
+//			while( nextPreviousEl ){
+//				
+//				
+//				nextPreviousEl = nextPreviousEl.previousElementSibling;
+//			}
+			
 			if(minHeight > nowY ){
 				nowY = minHeight;
 			}
@@ -117,29 +124,67 @@ var ChartsContainer = (function() {
 		    var originWidth = null;
 		    var originHeight = null;
 		    var changedPx = null;
-		    var previousSiblingTop = null;
-		    var previousSiblingHeight = null;
-		    var previousSiblingLeft = null;
-		    
+		    var previousSiblingTop = comm.getNumWithoutPx(previousSibling,"top");
+		    var previousSiblingLeft = comm.getNumWithoutPx(previousSibling,"left");
+		    var previousSiblingWidth = comm.getNumWithoutPx(previousSibling,"width");
+		    var previousSiblingHeight = comm.getNumWithoutPx(previousSibling,"height");
+		    var nextPreviousEl = previousSibling.previousElementSibling;
+			var nextPreviousPosotion = null;
+			var nextPreviousElTop = null;
+			var nextPreviousElLeft = null;
+			var nextPreviousElWidth = null;
+			var nextPreviousElHeight = null;
+			var previousTotallPosotion = null;
+			
 		    if(selectedPartition.className.indexOf("horizontal") > -1){
 		    	
 		    	originHeight = comm.getNumWithoutPx(previousSibling,"height");
-		    	priviousHeight = partitionTop - previousSibling.offsetTop;
+		    	priviousHeight = partitionTop - previousSiblingTop;
 		    	
 		    	previousSibling.style.height = priviousHeight  + "px";
 		    	
 		    	nextElementSibling.style.top = partitionTop + "px";
 		    	nextElementSibling.style.height = (originHeight - priviousHeight) + comm.getNumWithoutPx(nextElementSibling,"height")  + "px";
-		    
+		    	
+		    	previousTotallPosotion = previousSiblingTop + previousSiblingHeight;
+		    	
+		    	while( nextPreviousEl ){
+		    		
+		    		nextPreviousElTop = comm.getNumWithoutPx(nextPreviousEl,"top");
+		    		nextPreviousElHeight = comm.getNumWithoutPx(nextPreviousEl,"height");
+		    		nextPreviousPosotion = nextPreviousElTop + nextPreviousElHeight;
+		    		
+		    		if( Math.abs(nextPreviousPosotion - previousTotallPosotion) <  Component.prototype.minSize){
+		    			nextPreviousEl.style.height = comm.getNumWithoutPx(nextPreviousEl,"height") - (previousSiblingHeight - priviousHeight) + "px";
+		    		}
+		    		
+		    		nextPreviousEl = nextPreviousEl.previousElementSibling;
+		    	}
+		    	
 		    } else{
 		    	
 		    	originWidth = comm.getNumWithoutPx(previousSibling,"width");
 		    	priviousWidth = partitionLeft - previousSibling.offsetLeft;
 		    	
 		    	previousSibling.style.width = priviousWidth  + "px";
+		    	
 		    	nextElementSibling.style.left = partitionLeft + "px";
 		    	nextElementSibling.style.width = (originWidth - priviousWidth) + comm.getNumWithoutPx(nextElementSibling,"width")  + "px";
-		   
+		    	
+		    	previousTotallPosotion = previousSiblingLeft + previousSiblingWidth;
+		    	
+	    		while( nextPreviousEl ){
+		    		
+	    			nextPreviousElLeft = comm.getNumWithoutPx(nextPreviousEl,"left");
+		    		nextPreviousElWidth = comm.getNumWithoutPx(nextPreviousEl,"width");
+		    		nextPreviousPosotion = nextPreviousElLeft + nextPreviousElWidth;
+		    		
+		    		if( Math.abs(nextPreviousPosotion - previousTotallPosotion) <  Component.prototype.minSize){
+		    			nextPreviousEl.style.width = comm.getNumWithoutPx(nextPreviousEl,"width") - (previousSiblingWidth - priviousWidth) + "px";
+		    		}
+		    		
+		    		nextPreviousEl = nextPreviousEl.previousElementSibling;
+		    	}
 		    }
 			
 			ChartsContainer.prototype.selectedPartition = null;

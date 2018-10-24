@@ -365,20 +365,20 @@ var Component = (function(){
 			nextSiblingLeft = targetEl.offsetLeft;
 		}
 		
+		partitionEl.style.top = nextSiblingTop + "px";
+		partitionEl.style.left = nextSiblingLeft + "px";
+		
 		if(isPrevious){
 			componentWrapper.style.top = targetEl.offsetTop + "px";
 			componentWrapper.style.left = targetEl.offsetLeft + "px"
 			siblingComponentSelf.style.top = nextSiblingTop + "px";
 			siblingComponentSelf.style.left = nextSiblingLeft + "px";
-			partitionEl.style.top = nextSiblingTop + "px";
-			partitionEl.style.left = nextSiblingLeft + "px";
 		} else{
 			siblingComponentSelf.style.top = targetEl.offsetTop + "px";
 			siblingComponentSelf.style.left = targetEl.offsetLeft + "px";
 			componentWrapper.style.top = nextSiblingTop + "px";
 			componentWrapper.style.left = nextSiblingLeft + "px";
-			partitionEl.style.top = nextSiblingTop + "px";
-			partitionEl.style.left = nextSiblingLeft + "px";
+
 		}
 	}
 	
