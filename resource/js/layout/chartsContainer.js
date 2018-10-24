@@ -59,41 +59,58 @@ var ChartsContainer = (function() {
 			var nowX = event.x;
 			var previousSibling = selectedPartition.previousElementSibling;
 			var nextSibling = selectedPartition.nextSibling;
-			var previousSiblingTop = previousSibling.offsetTop;
-			var previousSiblingLeft = previousSibling.offsetLeft;
-			var previousSiblingWidth = previousSibling.offsetWidth;
-			var previousSiblingHeight = previousSibling.offsetHeight;
 			var nextSiblingWidth = nextSibling.offsetWidth;
 			var nextSiblingHeight = nextSibling.offsetHeight;
-			var minWidth = minSize + previousSiblingLeft;
-			var minHeight = minSize + previousSiblingTop;
-			var maxTop = previousSiblingTop + previousSiblingHeight + nextSiblingHeight - minSize;
-			var maxLeft = previousSiblingLeft + previousSiblingWidth + nextSiblingWidth - minSize;
+			var previousSiblingTop = null;
+			var previousSiblingLeft = null;
+			var previousSiblingWidth = null;
+			var previousSiblingHeight = null;
+			var minWidth = null;
+			var minHeight = null;
+			var maxTop = null;
+			var maxLeft = null;
 			
-//		    var nextPreviousEl = previousSibling.previousElementSibling;
-//			
-//			while( nextPreviousEl ){
-//				
-//				
-//				nextPreviousEl = nextPreviousEl.previousElementSibling;
-//			}
-			
-			if(minHeight > nowY ){
-				nowY = minHeight;
+			while( previousSibling ){
+				
+				previousSiblingTop = previousSibling.offsetTop;
+				previousSiblingLeft = previousSibling.offsetLeft;
+				previousSiblingWidth = previousSibling.offsetWidth;
+				previousSiblingHeight = previousSibling.offsetHeight;
+				minWidth = minSize + previousSiblingLeft;
+				minHeight = minSize + previousSiblingTop;
+				maxTop = previousSiblingTop + previousSiblingHeight + nextSiblingHeight - minSize;
+				maxLeft = previousSiblingLeft + previousSiblingWidth + nextSiblingWidth - minSize;
+				
+				if(selectedPartition.className.indexOf("horizontal") > -1){
+					if(previousSibling.className.indexOf("horizontal") > 1){
+						previousSibling = previousSibling.previousElementSibling;
+						continue;
+					}
+					
+					if(minHeight > nowY ){
+						nowY = minHeight;
+					}
+					
+					if(maxTop  < nowY){
+						nowY = maxTop;
+					}
+				} else{
+					if(previousSibling.className.indexOf("vertical") > 1){
+						previousSibling = previousSibling.previousElementSibling;
+						continue;
+					}
+					if(minWidth > nowX){
+						nowX = minWidth;
+					}
+					
+					if(maxLeft  < nowX){
+						nowX = maxLeft;
+					}
+				}
+				
+				previousSibling = previousSibling.previousElementSibling;
 			}
-			
-			if(maxTop  < nowY){
-				nowY = maxTop;
-			}
-			
-			if(minWidth > nowX){
-				nowX = minWidth;
-			}
-			
-			if(maxLeft  < nowX){
-				nowX = maxLeft;
-			}
-
+	
 			if(selectedPartition.className.indexOf("horizontal") > -1){
 				selectedPartition.style.top = nowY + "px";
 			} else{
@@ -104,7 +121,7 @@ var ChartsContainer = (function() {
 			ChartsContainer.prototype.prePartitionX = nowX;
 			
 		};
-
+		
 		document.onmouseup = function () {
 			
 			ChartsContainer.prototype.isMouseDown = false;
@@ -119,16 +136,16 @@ var ChartsContainer = (function() {
 		    var nextElementSibling = selectedPartition.nextElementSibling; 
 		    var partitionTop = selectedPartition.offsetTop;
 		    var partitionLeft = selectedPartition.offsetLeft;
-		    var priviousWidth = null;
-		    var priviousHeight = null;
-		    var originWidth = null;
-		    var originHeight = null;
-		    var changedPx = null;
 		    var previousSiblingTop = comm.getNumWithoutPx(previousSibling,"top");
 		    var previousSiblingLeft = comm.getNumWithoutPx(previousSibling,"left");
 		    var previousSiblingWidth = comm.getNumWithoutPx(previousSibling,"width");
 		    var previousSiblingHeight = comm.getNumWithoutPx(previousSibling,"height");
 		    var nextPreviousEl = previousSibling.previousElementSibling;
+		    var priviousWidth = null;
+		    var priviousHeight = null;
+		    var originWidth = null;
+		    var originHeight = null;
+		    var changedPx = null;
 			var nextPreviousPosotion = null;
 			var nextPreviousElTop = null;
 			var nextPreviousElLeft = null;
@@ -150,6 +167,11 @@ var ChartsContainer = (function() {
 		    	
 		    	while( nextPreviousEl ){
 		    		
+		    		if(nextPreviousEl.className.indexOf("horizontal") > -1){
+		    			nextPreviousEl = nextPreviousEl.previousElementSibling;
+		    			continue;
+		    		}
+		    		
 		    		nextPreviousElTop = comm.getNumWithoutPx(nextPreviousEl,"top");
 		    		nextPreviousElHeight = comm.getNumWithoutPx(nextPreviousEl,"height");
 		    		nextPreviousPosotion = nextPreviousElTop + nextPreviousElHeight;
@@ -157,7 +179,7 @@ var ChartsContainer = (function() {
 		    		if( Math.abs(nextPreviousPosotion - previousTotallPosotion) <  Component.prototype.minSize){
 		    			nextPreviousEl.style.height = comm.getNumWithoutPx(nextPreviousEl,"height") - (previousSiblingHeight - priviousHeight) + "px";
 		    		}
-		    		
+
 		    		nextPreviousEl = nextPreviousEl.previousElementSibling;
 		    	}
 		    	
@@ -175,6 +197,11 @@ var ChartsContainer = (function() {
 		    	
 	    		while( nextPreviousEl ){
 		    		
+	    			if(nextPreviousEl.className.indexOf("vertical") > -1){
+		    			nextPreviousEl = nextPreviousEl.previousElementSibling;
+		    			continue;
+		    		}
+	    			
 	    			nextPreviousElLeft = comm.getNumWithoutPx(nextPreviousEl,"left");
 		    		nextPreviousElWidth = comm.getNumWithoutPx(nextPreviousEl,"width");
 		    		nextPreviousPosotion = nextPreviousElLeft + nextPreviousElWidth;

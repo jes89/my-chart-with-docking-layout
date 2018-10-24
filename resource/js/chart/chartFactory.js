@@ -3,7 +3,7 @@ var abstracChartFactory = (function() {
 	return {
 		addChart : function(type, chart) {
 			var proto = chart.prototype;
-			if (proto.draw && proto.move && proto.remove) { 
+			if (proto.draw) { 
 				charts[type] = chart;
 			}
 		},
@@ -16,3 +16,8 @@ var abstracChartFactory = (function() {
 
 abstracChartFactory.addChart('ballChart', BallChart);
 abstracChartFactory.addChart('scatterChart', ScatterChart);
+abstracChartFactory.addChart('sectionChart', SectionChart);
+abstracChartFactory.addChart('pieChart', PieChart);
+abstracChartFactory.addChart('lineChart', LineChart);
+abstracChartFactory.addChart('barChart', BarChart);
+abstracChartFactory.addChart('tableChart', TableChart);
