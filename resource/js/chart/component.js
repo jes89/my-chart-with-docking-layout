@@ -6,11 +6,14 @@ var Component = (function(){
 		this.previousSibling = previousSibling;
 		this.nextSibling = nextSibling;
 		this.self = null;
+		this.chartWrapper = null;
+		this.dockWrapper = null;
 	}
 	
 	Component.prototype.boarderWidth = 1;
 	Component.prototype.partitionWidth = 6;
-	Component.prototype.minSize = 50;
+	Component.prototype.dockHaderSize = 30;
+	Component.prototype.minSize = 100;
 	Component.prototype.index = 0;
 	Component.prototype.observer = new Observer();
 	Component.prototype.componentsList = [];
@@ -29,17 +32,17 @@ var Component = (function(){
 		
 	}
 	
-	Component.prototype.draw = function( chartType, component, isPrevious ) {
+	Component.prototype.draw = function( targetEl, chartType, component, isPrevious ) {
 		
 		var chart = abstracChartFactory.create(chartType); 
 		
 		this.observer.observe(chartType + " 그렸다.");
 		
-		createComponentWrapper(component, isPrevious);
+		createComponentWrapper(targetEl, component, isPrevious);
 		Component.prototype.componentsList.push(component);
 		
 		if(chart){
-			chart.draw();
+			chart.draw(component);
 		}
 	};
 	
@@ -51,6 +54,15 @@ var Component = (function(){
 		console.log('컴포먼트 삭제 호출');
 	};
 	
+	Component.prototype.resize = function() {
+		var chart = abstracChartFactory.create(this.type); 
+		
+		if(chart){
+			chart.draw(this);
+		}
+	};
+	
+	
 	Component.prototype.drop = function(){
 		
 		event.stopPropagation();
@@ -58,12 +70,24 @@ var Component = (function(){
 		Component.prototype.hidePreviwArea();
 		
 		var targetEl = event.target;
+		var className = targetEl.className;
+		
+		if(typeof(className) !== "string" || className.containString("contents_root_container") === false){
+			while(targetEl){
+				className = targetEl.className;
+				if(typeof(className) === "string" && className.containString("component_wrapper")){
+					break;
+				}
+				targetEl = targetEl.parentElement;
+			}
+		}
+		
 		var eventType = event.dataTransfer.getData("event-type");
 		var chartType = event.dataTransfer.getData("chart-type");
 		var siblingIndex = targetEl.getAttribute("data-index");
 		var currentIndex = Component.prototype.index;
 		var siblingComponent = Component.prototype.componentsList[siblingIndex];
-		var position = getPosition(event.offsetX , event.offsetY);
+		var position = getPosition(targetEl, event.offsetX , event.offsetY);
 		var isPrevious = getIsPreviousType(position);
 		var diviedType = getDiviedType(position);
 		var previousSibling = null;
@@ -99,7 +123,7 @@ var Component = (function(){
 			}
 		}
 		
-		component[eventType](chartType, component, isPrevious );
+		component[eventType](targetEl, chartType, component, isPrevious );
 		
 		Component.prototype.index++;
 	};
@@ -130,9 +154,8 @@ var Component = (function(){
 		}
 	}
 	
-	var getPosition = function(x, y){
+	var getPosition = function(targetEl, x, y){
 	    
-		var targetEl = event.target;
 		var quarterWidth = targetEl.offsetWidth / 4;
 		var halfHeight = comm.getNumWithoutPx(targetEl,"height") / 2;
 		
@@ -169,7 +192,7 @@ var Component = (function(){
 		return (component.nextSibling || component.previousSibling) ? true : false;
 	}
 	
-	var createComponentWrapper = function( component, isPrevious ){
+	var createComponentWrapper = function( targetEl, component, isPrevious ){
 		
 		var siblingIdx = null;
 		
@@ -180,22 +203,24 @@ var Component = (function(){
 		}
 
 		var siblingComponent = Component.prototype.componentsList[siblingIdx];
-		var targetEl = event.target;
 		var componentWrapper = document.createElement("div");
 		var partitionEl = document.createElement("div");
+		var dockWrapper = document.createElement("div");
+		var chartWrapper = document.createElement("div");
+		var dockHaderSize = Component.prototype.dockHaderSize;
+		var chartWrapperWidth = null;
+		var chartWrapperHeight = null;
 		var contentsRootContainer = null;
 		var siblingComponentSelf = null;
 		
+		component.chartWrapper = componentWrapper;
+		component.dockWrapper = dockWrapper;
 		component.self = componentWrapper;
 		
 		componentWrapper.className = "component_wrapper";
 		componentWrapper.setAttribute("data-index", component.index);
 		
 		setComponentStyle(targetEl, isPrevious, component, siblingComponent, partitionEl);
-		
-		componentWrapper.textContent = component.type + "미구현";
-		componentWrapper.style.color = "white";
-		componentWrapper.style.textAlign = "center";
 		
 		if(siblingComponent){
 			siblingComponentSelf = siblingComponent.self;
@@ -206,10 +231,22 @@ var Component = (function(){
 				insertAfter(siblingComponentSelf, componentWrapper);
 				insertAfter(siblingComponentSelf, partitionEl);
 			}
+			siblingComponent.resize(siblingComponent);
 		} else{
 			contentsRootContainer = comm.getElById("contentsRootContainer")
 			contentsRootContainer.appendChild(componentWrapper);
 		}
+		
+		chartWrapperWidth = comm.getNumWithoutPx(componentWrapper,"width");
+		chartWrapperHeight = (comm.getNumWithoutPx(componentWrapper,"height") - dockHaderSize);
+		
+		dockWrapper.style.width = chartWrapperWidth + "px";
+		dockWrapper.style.height = dockHaderSize + "px";
+		chartWrapper.style.height = chartWrapperHeight + "px";
+		chartWrapper.style.width = chartWrapperWidth + "px";
+		
+		componentWrapper.appendChild(dockWrapper);
+		componentWrapper.appendChild(chartWrapper);
 		
 		initComponentEvent(componentWrapper);
 		initPartitionEvent(partitionEl);
@@ -222,11 +259,23 @@ var Component = (function(){
 		componentWrapper.ondragover = function(){
 			
 			var targetEl = event.target;
+			var className = targetEl.className;
+			
+			if(typeof(className) !== "string" || className.containString("contents_root_container") === false){
+				while(targetEl){
+					className = targetEl.className;
+					if(typeof(className) === "string" && className.containString("component_wrapper")){
+						break;
+					}
+					targetEl = targetEl.parentElement;
+				}
+			}
+			
 			var previewTop = comm.getElById("previewTop");
 			var previewRight = comm.getElById("previewRight");
 			var previewBottom = comm.getElById("previewBottom");
 			var previewLeft = comm.getElById("previewLeft");
-			var position = getPosition(event.offsetX , event.offsetY);
+			var position = getPosition(targetEl, event.offsetX , event.offsetY);
 			var diviedType = getDiviedType(position);
 			var width = null;
 			var height = null;

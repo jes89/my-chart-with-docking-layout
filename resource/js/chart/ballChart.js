@@ -4,9 +4,10 @@ var BallChart = (function(){
 		
 	}
 	
-	BallChart.prototype.draw = function(target) {
-
-	};
+	BallChart.prototype.draw = function(component) {
+		
+		
+	}
 	
 	return BallChart;
 	

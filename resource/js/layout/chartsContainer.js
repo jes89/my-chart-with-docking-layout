@@ -152,6 +152,7 @@ var ChartsContainer = (function() {
 			var nextPreviousElWidth = null;
 			var nextPreviousElHeight = null;
 			var previousTotallPosotion = null;
+			var dataIdx = null;
 			
 		    if(selectedPartition.className.indexOf("horizontal") > -1){
 		    	
@@ -164,6 +165,11 @@ var ChartsContainer = (function() {
 		    	nextElementSibling.style.height = (originHeight - priviousHeight) + comm.getNumWithoutPx(nextElementSibling,"height")  + "px";
 		    	
 		    	previousTotallPosotion = previousSiblingTop + previousSiblingHeight;
+		    	
+		    	dataIdx = previousSibling.getAttribute("data-index");
+				Component.prototype.componentsList[dataIdx].resize();
+				dataIdx = nextElementSibling.getAttribute("data-index");
+				Component.prototype.componentsList[dataIdx].resize();
 		    	
 		    	while( nextPreviousEl ){
 		    		
@@ -178,6 +184,10 @@ var ChartsContainer = (function() {
 		    		
 		    		if( Math.abs(nextPreviousPosotion - previousTotallPosotion) <  Component.prototype.minSize){
 		    			nextPreviousEl.style.height = comm.getNumWithoutPx(nextPreviousEl,"height") - (previousSiblingHeight - priviousHeight) + "px";
+		    			dataIdx = nextPreviousEl.getAttribute("data-index");
+		    			if(dataIdx){
+		    				Component.prototype.componentsList[dataIdx].resize();
+		    			}
 		    		}
 
 		    		nextPreviousEl = nextPreviousEl.previousElementSibling;
@@ -195,6 +205,11 @@ var ChartsContainer = (function() {
 		    	
 		    	previousTotallPosotion = previousSiblingLeft + previousSiblingWidth;
 		    	
+				dataIdx = previousSibling.getAttribute("data-index");
+				Component.prototype.componentsList[dataIdx].resize();
+				dataIdx = nextElementSibling.getAttribute("data-index");
+				Component.prototype.componentsList[dataIdx].resize();
+		    	
 	    		while( nextPreviousEl ){
 		    		
 	    			if(nextPreviousEl.className.indexOf("vertical") > -1){
@@ -208,6 +223,10 @@ var ChartsContainer = (function() {
 		    		
 		    		if( Math.abs(nextPreviousPosotion - previousTotallPosotion) <  Component.prototype.minSize){
 		    			nextPreviousEl.style.width = comm.getNumWithoutPx(nextPreviousEl,"width") - (previousSiblingWidth - priviousWidth) + "px";
+		    			dataIdx = nextPreviousEl.getAttribute("data-index");
+		    			if(dataIdx){
+		    				Component.prototype.componentsList[dataIdx].resize();
+		    			}
 		    		}
 		    		
 		    		nextPreviousEl = nextPreviousEl.previousElementSibling;
